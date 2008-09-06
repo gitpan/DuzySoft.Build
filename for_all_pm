@@ -1,0 +1,18 @@
+#!/usr/bin/perl -w
+
+use strict;
+use warnings;
+use File::Find;
+
+my $cmd = join( ' ', @ARGV );
+my @pms = ();
+
+#die $cmd;
+
+find sub {
+    unshift( @pms, $File::Find::name ) if /^.+\.pm$/;
+}, q{.};
+
+foreach ( @pms ) {
+    system( $cmd .' '. $_ );
+}
